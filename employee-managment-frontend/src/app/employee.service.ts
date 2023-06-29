@@ -15,6 +15,6 @@ export class EmployeeService {
 
   //This method return us the employee list from the URL attached to DB
   getEmployeeList():Observable<Employee[]>{
-    return this.httpClient.get<Employee[]>('${this.baseURL}');
+    return this.httpClient.get<Employee[]>(`${this.baseURL}`);
   }
 }
