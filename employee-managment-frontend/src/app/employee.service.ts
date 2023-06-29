@@ -11,10 +11,15 @@ export class EmployeeService {
   //This URL gets the whole employee list from backend
   private baseURL = "http://localhost:8080/api/v1/employees";
 
-  constructor(private httpClient : HttpClient) { }
+  constructor(private httpClient: HttpClient) { }
 
   //This method return us the employee list from the URL attached to DB
-  getEmployeeList():Observable<Employee[]>{
+  getEmployeeList(): Observable<Employee[]> {
     return this.httpClient.get<Employee[]>(`${this.baseURL}`);
+  }
+
+  //This method adds an employee to DB
+  addEmployee(employee: Employee): Observable<Object> {
+    return this.httpClient.post(`${this.baseURL}`, employee);
   }
 }

@@ -1,12 +1,16 @@
 package com.employee.managment.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.employee.managment.exceptions.ResourceNotFoundException;
 import com.employee.managment.models.Employee;
 import com.employee.managment.repository.RepositoryEmployee;
 import java.util.*;
@@ -27,7 +31,14 @@ public class EmployeeController {
 	
 	//This method saves the employee in the DB
 	@PostMapping("/employees")
-	public Employee addEmployee(@RequestBody Employee employee) {
+	public Employee add(@RequestBody Employee employee) {
 		return repositoryEmployee.save(employee);
+	}
+	
+	@GetMapping("/employees/{id}")
+	public ResponseEntity<Employee> get(@PathVariable Long id){	
+		Employee employee = repositoryEmployee.findById(id)
+				.orElseThrow(() -> new ResourceNotFoundException("Employee not found"));
+		return ResponseEntity.ok(employee);
 	}
 }
