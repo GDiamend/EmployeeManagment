@@ -12,7 +12,7 @@ export class AddEmployeeComponent {
 
   employee: Employee = new Employee();
 
-  constructor(private employeeService: EmployeeService, private router: Router) { };
+  constructor(private employeeService: EmployeeService, private router:Router) { };
 
   ngOnInit(): void {
   }

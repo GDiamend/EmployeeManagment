@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -35,10 +36,25 @@ public class EmployeeController {
 		return repositoryEmployee.save(employee);
 	}
 	
+	//his method search for a specific employee's id
 	@GetMapping("/employees/{id}")
 	public ResponseEntity<Employee> get(@PathVariable Long id){	
 		Employee employee = repositoryEmployee.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException("Employee not found"));
 		return ResponseEntity.ok(employee);
+	}
+	
+	@PutMapping("/employees/{id}")
+	public ResponseEntity<Employee> update(@PathVariable Long id, @RequestBody Employee modifiedEmployee){	
+		Employee employee = repositoryEmployee.findById(id)
+				.orElseThrow(() -> new ResourceNotFoundException("Employee not found"));
+		
+		employee.setName(modifiedEmployee.getName());
+		employee.setSurname(modifiedEmployee.getSurname());
+		employee.setEmail(modifiedEmployee.getEmail());
+		
+		Employee updatedEmployee = repositoryEmployee.save(employee);
+		
+		return ResponseEntity.ok(updatedEmployee);
 	}
 }
