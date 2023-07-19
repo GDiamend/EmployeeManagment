@@ -3,6 +3,7 @@ package com.employee.managment.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -36,7 +37,7 @@ public class EmployeeController {
 		return repositoryEmployee.save(employee);
 	}
 	
-	//his method search for a specific employee's id
+	//This method search for a specific employee's id
 	@GetMapping("/employees/{id}")
 	public ResponseEntity<Employee> get(@PathVariable Long id){	
 		Employee employee = repositoryEmployee.findById(id)
@@ -44,6 +45,7 @@ public class EmployeeController {
 		return ResponseEntity.ok(employee);
 	}
 	
+	//This method updates a specific employee
 	@PutMapping("/employees/{id}")
 	public ResponseEntity<Employee> update(@PathVariable Long id, @RequestBody Employee modifiedEmployee){	
 		Employee employee = repositoryEmployee.findById(id)
@@ -56,5 +58,17 @@ public class EmployeeController {
 		Employee updatedEmployee = repositoryEmployee.save(employee);
 		
 		return ResponseEntity.ok(updatedEmployee);
+	}
+	
+	//This method deletes a specific employee
+	@DeleteMapping("/employees/{id}")
+	public ResponseEntity<Map<String,Boolean>> deleteEmployee(@PathVariable Long id){
+		Employee employee = repositoryEmployee.findById(id)
+				.orElseThrow(() -> new ResourceNotFoundException("Employee doesn't existe"));
+		
+		repositoryEmployee.delete(employee);
+		Map<String,Boolean> answer = new HashMap<>();
+		answer.put("delete", Boolean.TRUE);
+		return ResponseEntity.ok(answer);
 	}
 }

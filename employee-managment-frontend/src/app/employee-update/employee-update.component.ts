@@ -6,8 +6,8 @@ import swal from 'sweetalert2';
 
 @Component({
   selector: 'app-update-employee',
-  templateUrl: './update-employee.component.html',
-  styleUrls: ['./update-employee.component.css']
+  templateUrl: './employee-update.component.html',
+  styleUrls: ['./employee-update.component.css']
 })
 export class UpdateEmployeeComponent implements OnInit {
 
