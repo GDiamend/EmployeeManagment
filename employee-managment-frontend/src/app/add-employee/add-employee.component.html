@@ -1,13 +1,29 @@
 <div class="col-md-6 offset-md-3">
     <h3 class="text-center"> Add an employee </h3>
-    <form (ngSubmit)="onSubmit()">
+    <form (ngSubmit)="onSubmit()" #employeeForm = "ngForm">
         <div class="form-group">
             <label> Name </label>
             <input type="text" 
             class="form-control" 
             id="name" 
             [(ngModel)]="employee.name"
-            name = "name">
+            name= "name"
+            required
+            minlength="1"
+            maxlength="30"
+            placeholder="Insert your name"
+            #name= "ngModel">
+            <div class="alert alert-danger" *ngIf="name.invalid && (name.dirty || name.touched)">
+                <div *ngIf = "name.errors?.['required']">
+                    Write a name
+                </div>
+                <div *ngIf = "name.errors?.['minlength']">
+                    Name must have 1 characters minimum
+                </div>
+                <div *ngIf = "name.errors?.['maxlength']">
+                    Name must have 30 characters maximum
+                </div>
+            </div>
         </div>
         <div class="form-group">
             <label> Surname </label>
@@ -15,7 +31,23 @@
             class="form-control" 
             id="surname" 
             [(ngModel)]="employee.surname"
-            name = "surname">
+            name = "surname"
+            required
+            minlength="1"
+            maxlength="30"
+            placeholder="Insert your surname"
+            #surname= "ngModel">
+            <div class="alert alert-danger" *ngIf="surname.invalid && (surname.dirty || surname.touched)">
+                <div *ngIf = "surname.errors?.['required']">
+                    Write a surname
+                </div>
+                <div *ngIf = "surname.errors?.['minlength']">
+                    Name must have 1 characters minimum
+                </div>
+                <div *ngIf = "surname.errors?.['maxlength']">
+                    Name must have 30 characters maximum
+                </div>
+            </div>
         </div>
         <div class="form-group">
             <label> Email </label>
@@ -23,8 +55,20 @@
             class="form-control" 
             id="email" 
             [(ngModel)]="employee.email"
-            name = "email">
+            name = "email"
+            pattern="[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$"
+            required
+            placeholder="Insert your email"
+            #email= "ngModel">
+            <div class="alert alert-danger" *ngIf="email.invalid && (email.dirty || email.touched)">
+                <div *ngIf = "email.errors?.['required']">
+                    Write an email
+                </div>
+                <div *ngIf = "email.errors?.['pattern']">
+                    Wrong pattern (example something@else.com)
+                </div>
+            </div>
         </div>
-        <button class="btn btn-succes"> Add </button>
+        <button class="btn btn-succes" [disabled]="!employeeForm.form.valid"> Add </button>
     </form>
 </div>
